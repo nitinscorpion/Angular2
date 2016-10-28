@@ -1,4 +1,3 @@
-﻿/// <binding />
 var ts = require('gulp-typescript');
 var gulp = require('gulp');
 var clean = require('gulp-clean');
@@ -26,20 +25,30 @@ gulp.task("scriptsNStyles", () => {
         .pipe(gulp.dest("./wwwroot/libs"));
 });
 
-var tsProject = ts.createProject('TSscripts/tsconfig.json');
-gulp.task('ts', function (done) {
-    //var tsResult = tsProject.src()
-    var tsResult = gulp.src([
-            "TSscripts/*.ts"
-    ])
-        .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
-    return tsResult.js.pipe(gulp.dest('./wwwroot/scripts'));
+
+
+
+var tsProject = ts.createProject('App/tsconfig.json');
+//gulp.task('ts', function (done) {
+//    //var tsResult = tsProject.src()
+//    var tsResult = gulp.src([
+//            "App/*.ts"
+//    ])
+//        .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
+//    return tsResult.js.pipe(gulp.dest('./wwwroot/Scripts'));
+//});
+
+gulp.task('ts', function () {
+    var tsResult = tsProject.src()
+        .pipe(tsProject());
+    return tsResult.js.pipe(gulp.dest('./wwwroot/Scripts'));
 });
+
 
 gulp.task('watch', ['watch.ts']);
 
 gulp.task('watch.ts', ['ts'], function () {
-    return gulp.watch('TSscripts/*.ts', ['ts']);
+    return gulp.watch('App/*.ts', ['ts']);
 });
 
 gulp.task('default', ['scriptsNStyles', 'watch']);
